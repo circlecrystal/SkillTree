@@ -1,0 +1,70 @@
+# Skill Tree Generator
+
+一个把庞杂 skill 聚合为分层路由树的工具，让 AI agent 按需加载子能力，避免一次性把所有指令塞进上下文。
+
+## 支持的 Agent
+
+- **Claude Code**（原生支持，skill 目录 `.claude/skills/`，记忆文件 `CLAUDE.md`）
+- **Codex CLI**（通过 `AGENTS.md` 注入路由协议，skill 目录可自定义，推荐 `.agent/skills/`）
+- 其他读取 `AGENTS.md` 的 agent（Cursor、Aider、Jules 等）同理
+
+---
+
+## 用法 A：Claude Code
+
+1. 将 `skill-tree-generator/` 放到工程 `.claude/skills/` 下
+2. 打开 Claude Code
+3. 运行：
+   ```
+   ./scripts/aggregate-skills.sh .claude/skills
+   ```
+4. 把输出的命令贴回 Claude Code（形如 `/skill-tree-generator --aggregate ...`）
+5. 生成结果：
+   - skill-tree 写入 `.claude/skills/{name}-tree/`
+   - 项目根 `CLAUDE.md` 追加路由协议（若不存在则创建）
+
+## 用法 B：Codex CLI
+
+1. 将 `skill-tree-generator/` 放到工程 `.agent/skills/` 下（或自定义目录）
+2. **一次性** 安装 custom prompt，让 Codex CLI 认识 `/skill-tree-generator`：
+   ```
+   ./scripts/install-codex-prompt.sh
+   ```
+   该脚本会把 `SKILL.md` 拷到 `~/.codex/prompts/skill-tree-generator.md`
+3. 运行：
+   ```
+   ./scripts/aggregate-skills.sh .agent/skills --agent codex
+   ```
+4. 把输出的命令贴回 Codex CLI
+5. 生成结果：
+   - skill-tree 写入 `.agent/skills/{name}-tree/`
+   - 项目根 `AGENTS.md` 追加路由协议（若不存在则创建）
+
+> 如果你不想安装 custom prompt，也可以直接在 Codex 里让它读 `SKILL.md` 并执行聚合命令，脚本输出里会提示具体写法。
+
+---
+
+## 路径约定
+
+| Agent        | Skill 目录         | 记忆文件      |
+|--------------|-------------------|--------------|
+| Claude Code  | `.claude/skills/` | `CLAUDE.md`  |
+| Codex CLI    | `.agent/skills/`  | `AGENTS.md`  |
+
+### 同一仓库想让两种 Agent 都用？
+
+推荐做法（只维护一份）：
+
+```
+# skill 目录用 Codex 风格，软链让 Claude Code 也能发现
+ln -s .agent/skills .claude/skills
+
+# 记忆文件共用一份
+ln -s AGENTS.md CLAUDE.md
+```
+
+---
+
+## 引用
+
+路由协议模板见 `skill-tree-generator/references/validation_template.md` 的 **Check 1**。
