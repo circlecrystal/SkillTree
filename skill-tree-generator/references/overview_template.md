@@ -6,7 +6,7 @@
 
 ## Single-Skill 模式
 
-```markdown
+````markdown
 # {Skill Name} Tree Overview
 
 ## 概述
@@ -44,13 +44,13 @@
 3. 如该模块无 ROUTER.md，创建新模块目录 + ROUTER.md
 4. 创建或更新叶节点 SKILL.md
 5. 更新本文件的映射表
-```
+````
 
 ---
 
 ## Multi-Skill 模式
 
-```markdown
+````markdown
 # {Domain} Tree Overview
 
 ## 概述
@@ -88,7 +88,7 @@
 |-------|------|-----------|
 | `skill-a` | {capability} | `skill-a/{module}/SKILL.md` |
 | `skill-b` | {capability} | `skill-b/{module}/SKILL.md` |
-| skill-a, skill-b | {shared capability} | `shared/{capability}/SKILL.md` |
+| `skill-a, skill-b` | {shared capability} | `shared/{capability}/SKILL.md` |
 
 ## Skill 覆盖统计
 
@@ -105,4 +105,4 @@
 2. 更新 ROOT.md Phase 1 路由表 + 消歧规则
 3. 更新 cross-cutting/SKILL.md（工作流 + dependencies）
 4. 更新本文件映射表和覆盖统计
-```
+````
