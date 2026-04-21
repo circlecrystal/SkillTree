@@ -42,14 +42,27 @@
 
 > 如果你不想安装 custom prompt，也可以直接在 Codex 里让它读 `SKILL.md` 并执行聚合命令，脚本输出里会提示具体写法。
 
+## 用法 C：OpenCode
+
+1. 将 `skill-tree-generator/` 放到工程 `.opencode/skills/` 下（或自定义目录）
+2. 运行：
+   ```
+   ./scripts/aggregate-skills.sh .opencode/skills --agent opencode
+   ```
+3. 按提示将输出的指令贴回 OpenCode（形如 `Read .../SKILL.md and execute: /skill-tree-generator --aggregate ...`）
+4. 生成结果：
+   - skill-tree 写入 `.opencode/skills/{name}-tree/`
+   - 项目根 `AGENTS.md` 追加路由协议（若不存在则创建）
+
 ---
 
 ## 路径约定
 
-| Agent        | Skill 目录         | 记忆文件      |
-|--------------|-------------------|--------------|
-| Claude Code  | `.claude/skills/` | `CLAUDE.md`  |
-| Codex CLI    | `.agent/skills/`  | `AGENTS.md`  |
+| Agent        | Skill 目录          | 记忆文件      |
+|--------------|--------------------|--------------|
+| Claude Code  | `.claude/skills/`  | `CLAUDE.md`  |
+| Codex CLI    | `.agent/skills/`   | `AGENTS.md`  |
+| OpenCode     | `.opencode/skills/`| `AGENTS.md`  |
 
 ### 同一仓库想让两种 Agent 都用？
 
@@ -68,3 +81,8 @@ ln -s AGENTS.md CLAUDE.md
 ## 引用
 
 路由协议模板见 `skill-tree-generator/references/validation_template.md` 的 **Check 1**。
+
+## 路由追踪 [可选]
+
+- 当用户 prompt 包含 **"路由调试"** / **"debug routing"** / **"路由追踪"** 时，激活路由追踪模式，该模式可输出路由追踪日志，可查看skill-tree是否实际触发到了用户需要的skill节点。
+- **正常模式**（默认）：不输出任何路由信息，直接执行。

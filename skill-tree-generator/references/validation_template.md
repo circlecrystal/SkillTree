@@ -12,26 +12,18 @@
 
 **目标文件**（按当前 agent 选择）：
 
-| Agent       | 记忆文件    | Skill 目录                                |
-|-------------|------------|------------------------------------------|
+| Agent       | 记忆文件     | Skill 目录                              |
+|-------------|-------------|-----------------------------------------|
 | Claude Code | `CLAUDE.md` | `.claude/skills/`                       |
-| Codex CLI   | `AGENTS.md` | `.agent/skills/`（或用户自定义目录）       |
+| Codex CLI   | `AGENTS.md` | `.agent/skills/`（或用户自定义目录）      |
+| OpenCode    | `AGENTS.md` | `.opencode/skills/`                     |
 | 其他支持 AGENTS.md 的 agent（Cursor / Aider / Jules 等） | `AGENTS.md` | 同上 |
 
 操作：检查目标记忆文件是否已包含 `# Skill-Tree Routing Protocol [MANDATORY]` 或等价内容。
 如果不存在，追加以下内容（注意把 `{SKILLS_DIR}` 替换为实际 skill 目录）：
 
-```
-# Skill-Tree Routing Protocol [MANDATORY]
-在处理任何用户任务之前，执行以下路由流程：
-
-## Step 1: 扫描 Skill-Tree
-扫描 `{SKILLS_DIR}` 目录下所有以 `-tree` 结尾的 skill-tree 目录，
-读取每个 skill-tree 的 `ROOT.md` 文件。
-
-# 查找所有 skill-tree 的 ROOT.md
-# glob: {SKILLS_DIR}/*-tree/ROOT.md
-```
+# Skill-Tree Routing [MANDATORY]
+Before starting any task, read all `ROOT.md` files under `{SKILLS_DIR}/*-tree/` and follow their routing protocols.
 
 **通过标准**：目标记忆文件已存在且包含路由协议，或已成功追加。
 

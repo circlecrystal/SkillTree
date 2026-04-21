@@ -1,10 +1,24 @@
 ---
 name: skill-tree-generator
 description: Generates, aggregates, and extends modular skill-trees with hierarchical routing. Supports three modes — (1) convert a monolithic skill into a tree with ROOT.md/ROUTER.md/SKILL.md, (2) aggregate multiple skills into a unified cross-domain tree with shared leaves and disambiguation, (3) incrementally update an existing tree by adding new skills. Use when users need to restructure, merge, or extend skills into context-aware, load-on-demand hierarchies.
-argument-hint: [skill-name-or-skill-path-or-description] [--aggregate skill1,skill2,...] [--update <tree-path> --add <skill>]
 ---
 
 # Skill Tree Generator
+
+## Usage
+
+```
+/skill-tree-generator <skill-name-or-skill-path-or-description>
+/skill-tree-generator --aggregate skill1,skill2,... [--domain domain-name]
+/skill-tree-generator --update <tree-path> --add <skill>
+```
+
+**Modes:**
+| Input | Mode | Description |
+|-------|------|-------------|
+| Single skill path/description | Mode 1 | Convert monolithic skill into a routing tree |
+| `--aggregate skill1,skill2,...` | Mode 2 | Aggregate multiple skills into a unified tree |
+| `--update <tree-path> --add <skill>` | Mode 3 | Incrementally update an existing tree |
 
 ## Overview
 

@@ -4,10 +4,11 @@
 # Run this script first, then the target agent will use the output to invoke skill-tree-generator.
 #
 # Usage:
-#   ./scripts/aggregate-skills.sh <skill-directory> [--domain <domain-name>] [--agent claude|codex]
+#   ./scripts/aggregate-skills.sh <skill-directory> [--domain <domain-name>] [--agent claude|codex|opencode]
 #
 # Examples:
 #   ./scripts/aggregate-skills.sh .claude/skills
+#   ./scripts/aggregate-skills.sh .opencode/skills --agent opencode
 #   ./scripts/aggregate-skills.sh .agent/skills --agent codex
 #   ./scripts/aggregate-skills.sh tasks/my-project/environment/skills --domain data-processing --agent codex
 
@@ -25,21 +26,21 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --agent)
-            AGENT="${2:?--agent requires a value (claude|codex)}"
+            AGENT="${2:?--agent requires a value (claude|codex|opencode)}"
             shift 2
             ;;
         *)
             echo "Unknown argument: $1" >&2
-            echo "Usage: $0 <skill-directory> [--domain <domain-name>] [--agent claude|codex]" >&2
+            echo "Usage: $0 <skill-directory> [--domain <domain-name>] [--agent claude|codex|opencode]" >&2
             exit 2
             ;;
     esac
 done
 
 case "$AGENT" in
-    claude|codex) ;;
+    claude|codex|opencode) ;;
     *)
-        echo "Unknown agent: $AGENT (use 'claude' or 'codex')" >&2
+        echo "Unknown agent: $AGENT (use 'claude', 'codex', or 'opencode')" >&2
         exit 2
         ;;
 esac
@@ -114,6 +115,16 @@ case "$AGENT" in
         echo "        $CMD"
         echo ""
         echo "  (b) Otherwise, paste this instruction into Codex directly:"
+        echo ""
+        echo "        Read $SKILL_DIR/skill-tree-generator/SKILL.md and execute:"
+        echo "        $CMD"
+        echo ""
+        echo "Output will be written to:"
+        echo "  - $SKILL_DIR/{skill-name}-tree/"
+        echo "  - <repo-root>/AGENTS.md  (appended if it already exists)"
+        ;;
+    opencode)
+        echo "In OpenCode, paste this instruction directly:"
         echo ""
         echo "        Read $SKILL_DIR/skill-tree-generator/SKILL.md and execute:"
         echo "        $CMD"
